@@ -9,6 +9,12 @@ export default function App(){
   const [currAnswer,setCurrAnswer] = useState("")
   const [currQues,setCurrQues] = useState(keys[currIdx])
   const [showConfig,setShowConfig] = useState(false)
+  const [keybinds,setKeybinds] = useState({
+    testFormatKeybinds:cookies.testFormatKeybinds,
+    showAnswerKeybinds:cookies.showAnswerKeybinds,
+    backKeybinds:cookies.backKeybinds,
+    nextKeybinds:cookies.nextKeybinds
+  })
   function shuffle(keys){
     let arr = keys
     for(let i = keys.length - 1; i > 0; i--){
@@ -83,6 +89,10 @@ export default function App(){
     }
   }
   function changeBinding(type,value){
+    setKeybinds(keybinds => {
+      keybinds[type] = value
+      return keybinds
+    })
     setCookie(type,value)
   }
   function reset(){
@@ -142,20 +152,20 @@ export default function App(){
                 <p>Config</p>
                 <div className='grid grid-cols-1'>
                 <div className='inline'>
-                  <label>test format keybind: {cookies.testFormatKeybinds} </label>
-                  <input type='text' className={`m-2 border text-center border ${cookies.mode === 'DARK' ? 'border-white-500' : 'border-gray-500'} p-2 rounded-lg`} onChange={(e)=>changeBinding('testFormatKeybinds',e.target.value)} />
+                  <label>test format keybind: </label>
+                  <input type='text' className={`m-2 border text-center border ${cookies.mode === 'DARK' ? 'border-white-500' : 'border-gray-500'} p-2 rounded-lg`} value={keybinds.testFormatKeybinds} onChange={(e)=>changeBinding('testFormatKeybinds',e.target.value)} />
                 </div>
                 <div className='inline'>
-                  <label>show answer keybind: {cookies.showAnswerKeybinds}</label>
-                  <input type='text' className={`m-2 text-center border ${cookies.mode === 'DARK' ? 'border-white-500' : 'border-gray-500'} p-2 rounded-lg`} onChange={(e)=>changeBinding('showAnswerKeybinds',e.target.value)} />
+                  <label>show answer keybind: </label>
+                  <input type='text' className={`m-2 text-center border ${cookies.mode === 'DARK' ? 'border-white-500' : 'border-gray-500'} p-2 rounded-lg`} value={keybinds.showAnswerKeybinds} onChange={(e)=>changeBinding('showAnswerKeybinds',e.target.value)} />
                 </div>
                 <div className='inline'>
-                  <label>back keybind: {cookies.backKeybinds}</label>
-                  <input type='text' className={`m-2 text-center border ${cookies.mode === 'DARK' ? 'border-white-500' : 'border-gray-500'} p-2 rounded-lg`} onChange={(e)=>changeBinding('backKeybinds',e.target.value)} />
+                  <label>back keybind: </label>
+                  <input type='text' className={`m-2 text-center border ${cookies.mode === 'DARK' ? 'border-white-500' : 'border-gray-500'} p-2 rounded-lg`} value={keybinds.backKeybinds} onChange={(e)=>changeBinding('backKeybinds',e.target.value)} />
                 </div>
                 <div className='inline'>
-                  <label>next keybind: {cookies.nextKeybinds}</label>
-                  <input type='text' className={`m-2 text-center border ${cookies.mode === 'DARK' ? 'border-white-500' : 'border-gray-500'} p-2 rounded-lg`} onChange={(e)=>changeBinding('nextKeybinds',e.target.value)} />
+                  <label>next keybind: </label>
+                  <input type='text' className={`m-2 text-center border ${cookies.mode === 'DARK' ? 'border-white-500' : 'border-gray-500'} p-2 rounded-lg`} value={keybinds.nextKeybinds} onChange={(e)=>changeBinding('nextKeybinds',e.target.value)} />
                 </div>
                 <div className='inline'>
                   <label>mode: </label>
