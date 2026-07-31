@@ -89,6 +89,7 @@ export default function App(){
     }
   }
   function changeBinding(type,value){
+    console.log(keybinds)
     setKeybinds(keybinds => {
       keybinds[type] = value
       return keybinds
@@ -103,20 +104,20 @@ export default function App(){
   }
   useEffect(()=>{
     function handleKeystrokes(e){
+      console.log(keybinds)
       if(showConfig === false){
-        if(e.key === cookies.backKeybinds){
+        if(e.key === keybinds.backKeybinds){
           back()
-        } else if(e.key === cookies.nextKeybinds){
+        } else if(e.key === keybinds.nextKeybinds){
           next()
-        } else if(e.key === cookies.showAnswerKeybinds){
+        } else if(e.key === keybinds.showAnswerKeybinds){
           showAnswer()
-        } else if(e.key === cookies.testFormatKeybinds){
+        } else if(e.key === keybinds.testFormatKeybinds){
           testFormat()
         }
       }
     }
     window.addEventListener('keydown',handleKeystrokes)
-    console.log(cookies)
   },[])
   return (
     <div className={`${cookies.mode === 'DARK' ? 'bg-gray-500 text-white' : 'bg-slate-500 text-black'} font-mono h-screen`}>
