@@ -122,19 +122,19 @@ export default function App(){
             <div className='grid grid-cols-1 gap-2 p-2'>
               <div className='inline m-2'>
                 <label>test format keybind:</label>
-                <input type='text' onChange={(e)=>changeBindings('testFormatKeybinds',e.target.value)} className='border border-white-300 rounded-lg p-2 text-center' value={cookies.testFormatKeybinds.length > 0 ? cookies.testFormatKeybinds : 'None currently'} />
+                <input type='text' onChange={(e)=>changeBindings('testFormatKeybinds',e.target.value)} className='border border-white-300 rounded-lg p-2 text-center' value={cookies.testFormatKeybinds !== undefined ? cookies.testFormatKeybinds : 'None currently'} />
               </div>
               <div className='inline m-2'>
                 <label>show answer keybind:</label>
-                <input type='text' onChange={(e)=>changeBindings('showAnswerKeybinds',e.target.value)} className='border border-white-300 rounded-lg p-2 text-center' value={cookies.showAnswerKeybinds.length > 0 ? cookies.showAnswerKeybinds : 'None currently'} />
+                <input type='text' onChange={(e)=>changeBindings('showAnswerKeybinds',e.target.value)} className='border border-white-300 rounded-lg p-2 text-center' value={cookies.showAnswerKeybinds !== undefined ? cookies.showAnswerKeybinds : 'None currently'} />
               </div>
               <div className='inline m-2'>
                 <label>back keybind:</label>
-                <input type='text' onChange={(e)=>changeBindings('backKeybinds',e.target.value)} className='border border-white-300 rounded-lg p-2 text-center' value={cookies.backKeybinds.length > 0 ? cookies.backKeybinds : 'None currently'} />
+                <input type='text' onChange={(e)=>changeBindings('backKeybinds',e.target.value)} className='border border-white-300 rounded-lg p-2 text-center' value={cookies.backKeybinds !== undefined ? cookies.backKeybinds : 'None currently'} />
               </div>
               <div className='inline m-2'>
                 <label>next keybind:</label>
-                <input type='text' onChange={(e)=>changeBindings('nextKeybinds',e.target.value)} className='border border-white-300 rounded-lg p-2 text-center' value={cookies.nextKeybinds.length > 0 ? cookies.nextKeybinds : 'None currently'} />
+                <input type='text' onChange={(e)=>changeBindings('nextKeybinds',e.target.value)} className='border border-white-300 rounded-lg p-2 text-center' value={cookies.nextKeybinds !== undefined ? cookies.nextKeybinds : 'None currently'} />
               </div>
             </div>
           </div>
