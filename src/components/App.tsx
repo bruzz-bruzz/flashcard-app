@@ -116,8 +116,8 @@ export default function App(){
         {showConfig === false && (
           <div className='flex justify-center items-center flex-col'>
             <p>{cur + 1} / {questions.length}</p>
-            <p>{questions[cur]}</p>
-            <p className={`text-center w-9/10`}>{ans}</p>
+            <h1 className='border-b border-white-300 m-2 p-2 text-2xl'>{questions[cur]}</h1>
+            <h1 className={`m-2 p-2 text-center w-9/10 text-2xl`}>{ans}</h1>
             <div className='grid grid-cols-2 p-2 gap-4'>
               <button className='p-4 border border-white-300 rounded-lg p-2'>test format</button>
               <button className='p-4 border border-white-300 rounded-lg p-2' onClick={()=>{
