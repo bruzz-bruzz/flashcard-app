@@ -152,7 +152,7 @@ export default function App(){
           </div>
         )}
       </div>
-      <Github repoURL='A' profileURL='A' />
+      <Github repoURL='https://github.com/bruzz-bruzz/flashcard-app' profileURL='https://github.com/bruzz-bruzz' />
     </div>
   )
 }
