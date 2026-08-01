@@ -25,12 +25,13 @@ export default function App(){
     }
     return keys
   }
-  function readFile(file:File):Promise<{[key:string]:string}> | undefined{
+  function readFile(file:File):Promise<string[]> | undefined{
     if(!file){return }
     return new Promise((resolve,reject)=>{
       const reader = new FileReader()
       reader.onload = () => {
-        resolve(JSON.parse(reader.result as string))
+        const res = reader.result as string
+        resolve(res.split('\n'))
       }
       reader.onerror = () => {
         reject(reader.error)
@@ -89,9 +90,20 @@ export default function App(){
          hover:file:bg-slate-600
          cursor-pointer' onChange={async (e)=>{
             if(e.target.files){
-              const ret = await readFile(e.target.files[0])
-              setData(ret === undefined ? data : ret)
-              setQuestions(shuffle(Object.keys(ret === undefined ? [] : ret)))
+              const ret = await readFile(e.target.files[0]) as string[]
+              let res:{[key:string]:string} = {}
+              while(ret.length > 0){  
+                let k = ret.shift() as string
+                let d = ''
+                if(ret.length > 0){
+                  d = ret.shift() as string
+                }
+                if(k.length > 0 && d.length > 0){
+                  res[k] = d
+                }
+              } 
+              setData(res)
+              setQuestions(shuffle(Object.keys(res)))
               setCur(0) 
               setAns("")
             }
