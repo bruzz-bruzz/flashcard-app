@@ -25,13 +25,18 @@ export default function App(){
     }
     return keys
   }
-  function readFile(file:File):Promise<string[]> | undefined{
+  function readFile(file:File):Promise<string[]> | undefined | {[key:string]:string}{
     if(!file){return }
     return new Promise((resolve,reject)=>{
+      const fileType = file.name.split('.')[1]
       const reader = new FileReader()
       reader.onload = () => {
         const res = reader.result as string
-        resolve(res.split('\n'))
+        if(fileType === 'txt'){
+          resolve(res.split('\n'))
+        } else if(fileType === 'json'){
+          resolve(JSON.parse(res))
+        }
       }
       reader.onerror = () => {
         reject(reader.error)
@@ -90,21 +95,28 @@ export default function App(){
          hover:file:bg-slate-600
          cursor-pointer' onChange={async (e)=>{
             if(e.target.files){
-              const ret = await readFile(e.target.files[0]) as string[]
-              let res:{[key:string]:string} = {}
-              while(ret.length > 0){  
-                let k = ret.shift() as string
-                let d = ''
-                if(ret.length > 0){
-                  d = ret.shift() as string
-                }
-                if(k.length > 0 && d.length > 0){
-                  res[k] = d
-                }
-              } 
-              setData(res)
-              setQuestions(shuffle(Object.keys(res)))
-              setCur(0) 
+                const fileType = e.target.files[0].name.split('.')[1]
+                if(fileType === 'txt'){
+                    const ret = await readFile(e.target.files[0]) as string[]
+                let res:{[key:string]:string} = {}
+                while(ret.length > 0){  
+                  let k = ret.shift() as string
+                  let d = ''
+                  if(ret.length > 0){
+                    d = ret.shift() as string
+                  }
+                  if(k.length > 0 && d.length > 0){
+                    res[k] = d
+                  }
+                } 
+                setData(res)
+                setQuestions(shuffle(Object.keys(res)))
+              } else if(fileType === 'json'){
+                const ret = await readFile(e.target.files[0]) as {[key:string]:string}
+                setData(ret)
+                setQuestions(shuffle(Object.keys(ret)))
+              }
+              setCur(0)
               setAns("")
             }
           }} />
