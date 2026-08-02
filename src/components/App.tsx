@@ -60,7 +60,7 @@ export default function App(){
     setCur(idx => idx < questions.length - 1 ? idx + 1 : idx)
   }
   function changeBindings(type:string,value:string){
-    setCookie(type,value)
+    setCookie(type,value.toLowerCase())
     setKeybinds({
       ...keybinds,
       [type]:value
@@ -69,13 +69,13 @@ export default function App(){
   useEffect(()=>{
     function handleKeys(e:KeyboardEvent){
       if(showConfig === false){
-        if(e.key === keybinds.backKeybinds){
+        if(e.key.toLowerCase() === keybinds.backKeybinds){
           back()
-        } else if(e.key === keybinds.nextKeybinds){
+        } else if(e.key.toLowerCase() === keybinds.nextKeybinds){
           next()
-        } else if(e.key === keybinds.showAnswerKeybinds){
+        } else if(e.key.toLowerCase() === keybinds.showAnswerKeybinds){
           updateAnswer()
-        } else if(e.key === keybinds.testFormatKeybinds){}
+        } else if(e.key.toLowerCase() === keybinds.testFormatKeybinds){}
       }
     }
     window.addEventListener('keydown',handleKeys)
