@@ -25,12 +25,18 @@ export default function App(){
     }
     return keys
   }
-  function readFile(file:File):Promise<{[key:string]:string}> | undefined{
+  function readFile(file:File):Promise<string[]> | undefined | {[key:string]:string}{
     if(!file){return }
     return new Promise((resolve,reject)=>{
+      const fileType = file.name.split('.')[1]
       const reader = new FileReader()
       reader.onload = () => {
-        resolve(JSON.parse(reader.result as string))
+        const res = reader.result as string
+        if(fileType === 'txt'){
+          resolve(res.split('\n'))
+        } else if(fileType === 'json'){
+          resolve(JSON.parse(res))
+        }
       }
       reader.onerror = () => {
         reject(reader.error)
@@ -89,10 +95,28 @@ export default function App(){
          hover:file:bg-slate-600
          cursor-pointer' onChange={async (e)=>{
             if(e.target.files){
-              const ret = await readFile(e.target.files[0])
-              setData(ret === undefined ? data : ret)
-              setQuestions(shuffle(Object.keys(ret === undefined ? [] : ret)))
-              setCur(0) 
+                const fileType = e.target.files[0].name.split('.')[1]
+                if(fileType === 'txt'){
+                    const ret = await readFile(e.target.files[0]) as string[]
+                let res:{[key:string]:string} = {}
+                while(ret.length > 0){  
+                  let k = ret.shift() as string
+                  let d = ''
+                  if(ret.length > 0){
+                    d = ret.shift() as string
+                  }
+                  if(k.length > 0 && d.length > 0){
+                    res[k] = d
+                  }
+                } 
+                setData(res)
+                setQuestions(shuffle(Object.keys(res)))
+              } else if(fileType === 'json'){
+                const ret = await readFile(e.target.files[0]) as {[key:string]:string}
+                setData(ret)
+                setQuestions(shuffle(Object.keys(ret)))
+              }
+              setCur(0)
               setAns("")
             }
           }} />
@@ -104,8 +128,8 @@ export default function App(){
         {showConfig === false && (
           <div className='flex justify-center items-center flex-col'>
             <p>{cur + 1} / {questions.length}</p>
-            <p>{questions[cur]}</p>
-            <p className={`text-center w-9/10`}>{ans}</p>
+            <h1 className='border-b border-white-300 m-2 p-2 text-2xl'>{questions[cur]}</h1>
+            <h1 className={`m-2 p-2 text-center w-9/10 text-2xl`}>{ans}</h1>
             <div className='grid grid-cols-2 p-2 gap-4'>
               <button className='p-4 border border-white-300 rounded-lg p-2'>test format</button>
               <button className='p-4 border border-white-300 rounded-lg p-2' onClick={()=>{
@@ -140,7 +164,7 @@ export default function App(){
           </div>
         )}
       </div>
-      <Github repoURL='A' profileURL='A' />
+      <Github repoURL='https://github.com/bruzz-bruzz/flashcard-app' profileURL='https://github.com/bruzz-bruzz' />
     </div>
   )
 }
