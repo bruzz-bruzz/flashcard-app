@@ -6,6 +6,8 @@ Features
 - Load flashcards from a `.txt` or `.json` file.
 - Shuffle, navigate, and reveal answers.
 - Configurable keyboard keybinds stored in cookies.
+- Offline Support: Can be used without an internet connection after the first load.
+
 
 File formats
 - TXT: plain-text file with alternating lines for question and answer. Example:
