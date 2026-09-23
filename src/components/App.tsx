@@ -4,9 +4,15 @@ import {useCookies} from 'react-cookie'
 import Github from './Github'
 export default function App(){
   const [cur,setCur] = useState(0)
-  const [data,setData] = useState<{[key:string]:string}>({"HELLO":"WORLD"})
+  const [data,setData] = useState<{[key:string]:string}>(() => {
+    const saved = localStorage.getItem('flashcard-data')
+    return saved ? JSON.parse(saved) : {"HELLO":"WORLD"}
+  })
   const [cookies,setCookie] = useCookies()
-  const [questions,setQuestions] = useState<string[]>(Object.keys(data))
+  const [questions,setQuestions] = useState<string[]>(() => {
+    const saved = localStorage.getItem('flashcard-questions')
+    return saved ? JSON.parse(saved) : Object.keys({"HELLO":"WORLD"})
+  })
   const [showConfig,setShowConfig] = useState(false)
   const [ans,setAns] = useState("")
   const [keybinds,setKeybinds] = useState<{[key:string]:string}>({
@@ -15,6 +21,14 @@ export default function App(){
     showAnswerKeybinds:cookies.showAnswerKeybinds,
     testFormatKeybinds:cookies.testFormatKeybinds
   })
+
+  useEffect(() => {
+    localStorage.setItem('flashcard-data', JSON.stringify(data))
+  }, [data])
+
+  useEffect(() => {
+    localStorage.setItem('flashcard-questions', JSON.stringify(questions))
+  }, [questions])
   function shuffle(arr:string[]){
     let keys = arr
     for(let i = arr.length - 1; i > 0; i--){
